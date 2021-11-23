@@ -12,29 +12,13 @@ public class AppService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public String salvar(Model model, Usuario usuario) {
-        model.addAttribute("user",usuario);
-        if(!usuario.getNome().matches("[a-zA-Z]*")){
-            model.addAttribute("msg","Nome Inválido!!");
-            return "cadastro";
-        }
-        if(usuario.equals(usuarioRepository.duplicidade(usuario.getEmail()))){
-            model.addAttribute("msg","Email já cadastrado");
-            return "cadastro";
-        }
-        usuarioRepository.save(usuario);
-        return "sucesso";
+    public Usuario salvar(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
-    public String login(Model model, String email, String senha){
-        Usuario usuario = usuarioRepository.autenticacao(email, senha);
-        if(usuario!=null){
-            model.addAttribute("user",usuario);
-            return "sucessologin";
-        }else{
-            model.addAttribute("msg", "Credênciais Inválidas!!");
-            return "/login";
-        }
+    public Usuario login(String email, String senha){
+        return usuarioRepository.autenticacao(email, senha);
     }
+
 
 }

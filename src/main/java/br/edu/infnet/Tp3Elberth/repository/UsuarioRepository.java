@@ -11,7 +11,4 @@ public interface UsuarioRepository extends CrudRepository<Usuario,Integer> {
     @Query("from Usuario user where user.email =:email and user.senha =:senha")
     public Usuario autenticacao(String email, String senha);
 
-    @Query("from Usuario user where user.email =:email")
-    public Usuario duplicidade(String email);
-
 }

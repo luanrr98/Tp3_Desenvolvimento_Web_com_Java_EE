@@ -23,8 +23,15 @@ public class AppController {
 
     @PostMapping("/cadastrar")
     public String salvar(Model model, Usuario usuario){
-        return appService.salvar(model, usuario);
 
+        model.addAttribute("user",usuario);
+        if(!usuario.getNome().matches("[a-zA-Z]*")){
+            model.addAttribute("msg","Nome Inválido!!");
+            return "cadastro";
+        }
+
+        appService.salvar(usuario);
+        return "sucesso";
     }
 
     @GetMapping("/login")
@@ -34,6 +41,14 @@ public class AppController {
 
     @PostMapping("/login")
     public String login(Model model, @RequestParam("email") String email, @RequestParam("senha") String senha){
-        return appService.login(model, email, senha);
+       Usuario usuario  = appService.login(email, senha);
+
+        if(usuario != null) {
+            model.addAttribute("user",usuario);
+            return "sucessologin";
+        } else {
+            model.addAttribute("msg", "Credênciais Inválidas!!");
+            return "login";
+        }
     }
 }
